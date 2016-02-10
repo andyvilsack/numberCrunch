@@ -1,0 +1,168 @@
+<!doctype HTMl>
+<!-- Andrew and Ryan
+  with help from electricg from github for the stopwatch
+-->
+<html>
+<head>
+<title> Number Crunch </title>
+
+
+<style>
+.unselectable {
+ -moz-user-select: -moz-none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+}
+</style>
+
+<script>
+var nums = [];
+function startMath()
+{
+  document.getElementById("box").focus();
+  document.getElementById("outputspan").innerHTML = "";
+  for (i= 0; i<10; i++)
+  {
+    var randomNum = Math.floor(Math.random()*(9)+1);
+    nums[i] = randomNum;
+    document.getElementById("outputspan").innerHTML += randomNum;
+  }
+}
+function stopMath()
+{
+  var correct = 0;
+  var incorrect = 0;
+  for(j = 0; j<10; j++)
+  {
+    input = document.getElementById('box').value;
+    if (parseInt(input.charAt(j)) == nums[j])
+    {
+      correct++;
+    }
+    else
+    {
+      incorrect++;
+    }
+  document.getElementById("outputdiv").innerHTML = "You got " + correct + " correct and " + incorrect + " incorrect";
+  }
+}
+var	clsStopwatch = function() {
+	// Private vars
+	var	startAt	= 0;	// Time of last start / resume. (0 if not running)
+	var	lapTime	= 0;	// Time on the clock when last stopped in milliseconds
+
+	var	now	= function() {
+			return (new Date()).getTime();
+		};
+
+	// Public methods
+	// Start or resume
+	this.start = function() {
+			startAt	= startAt ? startAt : now();
+		};
+
+	// Stop or pause
+	this.stop = function() {
+			// If running, update elapsed time otherwise keep it
+			lapTime	= startAt ? lapTime + now() - startAt : lapTime;
+			startAt	= 0; // Paused
+		};
+
+	// Reset
+	this.reset = function() {
+			lapTime = startAt = 0;
+		};
+
+	// Duration
+	this.time = function() {
+			return lapTime + (startAt ? now() - startAt : 0);
+		};
+};
+
+var x = new clsStopwatch();
+var $time;
+var clocktimer;
+
+function pad(num, size) {
+var s = "0000" + num;
+return s.substr(s.length - size);
+}
+
+function formatTime(time) {
+var h = m = s = ms = 0;
+var newTime = '';
+
+h = Math.floor( time / (60 * 60 * 1000) );
+time = time % (60 * 60 * 1000);
+m = Math.floor( time / (60 * 1000) );
+time = time % (60 * 1000);
+s = Math.floor( time / 1000 );
+ms = time % 1000;
+
+newTime = pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2) + ':' + pad(ms, 3);
+return newTime;
+}
+
+function show() {
+$time = document.getElementById('time');
+update();
+}
+
+function update() {
+$time.innerHTML = formatTime(x.time());
+}
+
+function start() {
+clocktimer = setInterval("update()", 1);
+x.start();
+}
+
+function stop() {
+x.stop();
+clearInterval(clocktimer);
+finishTime = $time.innerHTML;
+//highScores(finishTime);
+}
+/*
+function highScores(finishTime){
+  if(correct == 10 && isHighScore(finishTime)){
+    addToHighScoreList(finishTime);
+  }
+  else{
+    alert("Sorry, your score did not enter the top three high scores!");
+  }
+}
+
+function addToHighScoreList(finishTime){
+
+}
+
+function isHighScore(finishTime){
+    //returns boolean variable after searching .txt file to see if it's within the top 3 scores
+
+}
+*/
+function reset() {
+box.value = "";
+stop();
+x.reset();
+update();
+}
+</script>
+</head>
+
+<body onload="show();" bgcolor = "#007055" >
+
+  <input type="button" value="Start" onclick="reset() ; start() ; startMath();">
+  <span id="outputspan" class="unselectable"></span>
+  <span id="time">Time: </span>
+<br>
+<input type="text" size="10" id="box" value="">
+<br>
+<input type="button" value="Enter" onclick="stop() ; stopMath();">
+<hr>
+<div id = "outputdiv"></div>
+</body>
+</html>
