@@ -15,6 +15,7 @@
  -ms-user-select: none;
  user-select: none;
 }
+
 .whiteText {
 	font color = "white";
 }
@@ -50,6 +51,8 @@ function stopMath()
     }
   document.getElementById("outputdiv").innerHTML = "You got " + correct + " correct and " + incorrect + " incorrect";
   }
+   var x = document.getElementById("box");
+    x.value = x.value.toUpperCase();
 }
 var	clsStopwatch = function() {
 	// Private vars
@@ -153,18 +156,31 @@ stop();
 x.reset();
 update();
 }
-</script>
+    
+
+</script>    
+    
 </head>
 
 <body onload="show();" bgcolor = "#007055" >
-  <input type="button" value="Start" onclick="reset() ; start() ; startMath();">
-  <span id="outputspan" class="unselectable"></span>
-  <span id="time">Time: </span>
+  
+    
+    <div align ="center"> <span style="color: white; font-size:50px" id="time">Time: </span> </div>
+    <br><br><br>
+    <div align ="center"> <span style = "color: white; font-size: 30px" id="outputspan" class="unselectable">0000000000</span> </div>
+
 <br>
-<input type="text" size="10" id="box" value="">
-<br>
-<input type="button" value="Enter" onclick="stop() ; stopMath();">
+    
+<div align="center"><input type="text" size="10" id="box" value="">
+
+    <input type="button" value="Enter" onclick="stop() ; stopMath();"></div>
+<br>  
+<div align="center"><input type="button" value="Start" onclick="reset() ; start() ; startMath();"></div>
 <hr>
+<div align ="center" style="color: white; font-size:50px" id = "outputdiv"></div>
+    
+    <div align = "center"><img src="http://www.sru.edu/Images/web/rocky1.png"></div>
+    
 </div>
 </body>
 </html>
